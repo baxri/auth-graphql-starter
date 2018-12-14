@@ -1,5 +1,6 @@
 const graphql = require('graphql');
-const UserType = require('./schema/user_type');
+const UserType = require('./types/user_type');
+const AuthService = require('../services/auth');
 
 const {
     GraphQLObjectType,
@@ -16,8 +17,8 @@ const mutation = new GraphQLObjectType({
                 email: { type: GraphQLString },
                 password: { type: GraphQLString },
             },
-            resolve(parentValue, args, request) {
-
+            resolve(parentValue, { email, password }, req) {
+                AuthService.signup({ email, password, req });
             }
         }
     }
